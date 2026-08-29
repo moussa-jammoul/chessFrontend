@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    compileSdk = 36
     namespace = "com.example.chessgame"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
