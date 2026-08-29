@@ -21,6 +21,7 @@ class ChessApp extends ConsumerWidget{
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
     return MaterialApp.router(
         title: 'Chess',
         theme: AppTheme.light,
