@@ -13,22 +13,18 @@ class Authdata extends Notifier<AuthDataFormat?> implements Authdatadomain {
   
   @override
   AuthDataFormat? build() {
-    late bool ok;
-    Future.microtask(() async{
-      ok = await checkIfJWTexist();
-    });
+    return null;
+  }
 
-    if(!ok){
-      return null;
+  Future<void> initialize() async {
+    final hasToken = await checkIfJWTexist();
+    if (!hasToken) {
+      state = null;
+      return;
     }
 
-    late AuthDataFormat? jwtTokens;
-
-    Future.microtask(() async{
-      jwtTokens = await loadAuthTokens();
-    });
-
-    return jwtTokens;
+    final jwtTokens = await loadAuthTokens();
+    state = jwtTokens;
   }
 
   @override
@@ -53,8 +49,10 @@ class Authdata extends Notifier<AuthDataFormat?> implements Authdatadomain {
   @override
   Future<void> writeNewTokens(String jwtacces, String jwtrefresh) async {
     final dataToStore = AuthDataFormat(jwtAcess: jwtacces, jwtRefresh: jwtrefresh);
+
     await secureStorage.write(key: 'auth_token', value: jsonEncode(dataToStore.toJson()));
     state = dataToStore;
+    
   }
 
   @override

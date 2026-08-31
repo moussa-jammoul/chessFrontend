@@ -1,6 +1,6 @@
 
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_local_variable, unused_element
 
 import 'package:chessgame/features/Authentication/data/authentication_api_domain.dart';
 import 'package:chessgame/features/Authentication/presentation/authdataDomain.dart';
@@ -49,13 +49,31 @@ class AuthenticationService extends Notifier<void> implements AuthenticationServ
 
   @override
   Future<void> signIn(String username, String password) async {
-    //TODO : handle sign in in service side
+    try{
+
+      AuthDataFormat newAuthdata = await ref.read(authenticationApiProvider.notifier).signIn(username, password);
+      await ref.read(authdataprovider.notifier).writeNewTokens(newAuthdata.jwtAcess, newAuthdata.jwtRefresh);
+
+    } catch(e){
+      debugPrint('$e');
+      rethrow;
+
+    }
     
   }
 
   @override
   Future<void> updatetokens() async {
-    //TODO : handle update tokens in service side
+    try{
+      AuthDataFormat newAuthdata = await ref.read(authenticationApiProvider.notifier).updatetokens();
+      await ref.read(authdataprovider.notifier).writeNewTokens(newAuthdata.jwtAcess, newAuthdata.jwtRefresh);
+
+    } catch(e){
+      debugPrint('$e');
+      rethrow;
+    }
+
+    
   }
 }
 

@@ -1,5 +1,8 @@
 // ignore_for_file: unused_import
 
+import 'package:chessgame/features/Authentication/presentation/authdataDomain.dart';
+import 'package:chessgame/features/Authentication/presentation/error_display.dart';
+import 'package:chessgame/features/Authentication/service/authentication_service_domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,20 +25,34 @@ class _LoginpageState extends ConsumerState<Loginpage> {
     super.dispose();
   }
 
-  void _handleSignIn() {
-    //TODO : handle sign in
+  Future<void> _handleSignIn() async {
+    try{
+    await ref.read(authenticationServiceProvider.notifier).signIn(_usernameController.text , _passwordController.text);
+    ref.read(errorDisplayProvider.notifier).clearError();
     debugPrint('Sign in: ${_usernameController.text}');
+    }
+    catch(e){
+    ref.read(errorDisplayProvider.notifier).addError('$e');
+    }
+   
   }
 
-  void _handleCreateAccount() {
-    //TODO : handle create account
-    debugPrint('create account to : ${_usernameController.text}');
+  Future<void> _handleCreateAccount() async {
+    try{
+    await ref.read(authenticationServiceProvider.notifier).createAccount(_usernameController.text , _passwordController.text);
+    ref.read(errorDisplayProvider.notifier).clearError();
+    debugPrint('Sign in: ${_usernameController.text}');
+    }
+    catch(e){
+    ref.read(errorDisplayProvider.notifier).addError('$e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-
+    final err = ref.watch(errorDisplayProvider);
+   
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -93,7 +110,16 @@ class _LoginpageState extends ConsumerState<Loginpage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 10,),
+
+                err == null ? SizedBox.shrink() : Text(
+                  err,
+                  style: TextStyle(
+                    color: Colors.red
+                  ),
+                  ),
+
+                const SizedBox(height: 26),
 
                 // Sign in button
                 ElevatedButton(
