@@ -71,7 +71,7 @@ class _LoginpageState extends ConsumerState<Loginpage> {
         fit: StackFit.expand,
         children: [
           ColorFiltered(
-  colorFilter: const ColorFilter.matrix(<double>[
+  colorFilter: const ColorFilter.matrix(<double>[ // color filter to make the lottie between black-white
     0.2126, 0.7152, 0.0722, 0, 0,
     0.2126, 0.7152, 0.0722, 0, 0,
     0.2126, 0.7152, 0.0722, 0, 0,
