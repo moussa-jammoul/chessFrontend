@@ -21,6 +21,7 @@ dependencies:
   hive_ce_flutter: ^2.3.4
   shared_preferences: ^2.5.5
   flutter_secure_storage: ^11.0.0
+  lottie: ^3.3.3
 
 dev_dependencies:
   flutter_test:
@@ -34,5 +35,7 @@ flutter:
 
   
   uses-material-design: true
-
+  assets:
+    - assets/images/
+    - assets/lotties/
   
