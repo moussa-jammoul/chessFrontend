@@ -1,3 +1,4 @@
+import 'package:chessgame/core/initdata/initialfunction.dart';
 import 'package:chessgame/features/Authentication/presentation/authdata.dart';
 import 'package:chessgame/features/Authentication/presentation/authdataDomain.dart';
 import 'package:chessgame/features/Authentication/presentation/loginpage.dart';
@@ -11,7 +12,6 @@ final routerProvider = Provider<GoRouter>((ref){
   ref.read(authdataprovider.notifier).initialize(); //init auth data
   final refreshNotifier = GoRouterRefreshNotifier(ref);
 
-
   return GoRouter(
   initialLocation: '/home',
   refreshListenable: refreshNotifier,
@@ -20,7 +20,12 @@ final routerProvider = Provider<GoRouter>((ref){
       final loggedIn = authToken != null;
       final loggingIn = state.matchedLocation == '/login';
 
-      if (!loggedIn && !loggingIn) return '/login';  
+      if (!loggedIn && !loggingIn) return '/login';
+      //succefly loged in :
+      
+      ref.read(initialfunctionprovider.notifier).runInitEngine();
+
+      //-------------------
       if (loggedIn && loggingIn) return '/home'; 
       return null;
   },
