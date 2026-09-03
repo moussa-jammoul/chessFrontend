@@ -5,6 +5,7 @@
 import 'package:chessgame/features/Authentication/data/authentication_api_domain.dart';
 import 'package:chessgame/features/Authentication/presentation/authdataDomain.dart';
 import 'package:chessgame/features/Authentication/service/authentication_service_domain.dart';
+import 'package:chessgame/features/UserData/service/userdataservicedomain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,10 +38,9 @@ class AuthenticationService extends Notifier<void> implements AuthenticationServ
   @override
   Future<void> logout() async {
     try{
-
     await ref.read(authenticationApiProvider.notifier).logout();
     await ref.read(authdataprovider.notifier).deleteTokens();
-
+    await ref.read(userdataserviceProvider.notifier).clearUserDataLocally();
     } catch(e){
       debugPrint('$e');
       rethrow;

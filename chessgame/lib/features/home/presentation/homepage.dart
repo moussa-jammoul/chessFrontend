@@ -6,6 +6,7 @@ import 'package:chessgame/core/loadingOverlay/loadingOverlayManagment.dart';
 import 'package:chessgame/features/Authentication/service/authentication_service_domain.dart';
 import 'package:chessgame/features/RandomRoomFlushed/presentation/flushedroomsdomain.dart';
 import 'package:chessgame/features/RandomRoomFlushed/presentation/roomdesigns.dart';
+import 'package:chessgame/features/RandomRoomFlushed/service/flushroomservice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
@@ -198,12 +199,15 @@ class Homepage extends ConsumerWidget {
 
 
 
-class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
+class _GlassAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const _GlassAppBar();
   
- 
+  void refreshnewRooms(WidgetRef ref , BuildContext context){
+     Future<void> Function() f = () => ref.read(flushedRoomsServiceProvider.notifier).loadRooms();
+     ref.read(loadingOverlayProvider.notifier).passAfunctionToshowLoading(f, context);
+  }
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context , WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRect(
       child: BackdropFilter(
@@ -250,9 +254,11 @@ class _GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
                 scale: 15,
               ),
               IconButton(
-                onPressed: (){} , 
+                onPressed: (){
+                  refreshnewRooms(ref, context);          
+                } , 
               icon: Icon(
-                Icons.more_vert,
+                Icons.refresh,
                 color: Theme.of(context).colorScheme.onSurface ,
               )
               )
